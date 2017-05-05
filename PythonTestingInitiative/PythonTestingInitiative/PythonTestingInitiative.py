@@ -1,12 +1,13 @@
 #hello
 import pygame
-x = 5
-f = "blahblahblah"
-while x > 0:
-    print("hello")
-    x -= 1
-    if x %2 == 0:
-        print("no")
+import os,sys
+pygame.init()
 
-print(f[::-1])
-print(f[0:8:2])
+screen = pygame.display.set_mode((640,480))
+pygame.display.set_caption("First")
+background = pygame.Surface(screen.get_size())
+background = background.convert()
+background.fill((250,250,250))
+screen.blit(background,(0,0))
+pygame.display.flip()
+
