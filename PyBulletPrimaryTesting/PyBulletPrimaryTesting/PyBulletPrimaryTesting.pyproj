@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Player.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PyBulletPrimaryTesting.py" />
   </ItemGroup>
   <PropertyGroup>

@@ -56,7 +56,7 @@ while not done:
             if event.key == pygame.K_SPACE:
                 dis.jump()
             elif event.key == pygame.K_RIGHT:
-                 dis.hvelocity = 4
+                dis.hvelocity = 4
             elif event.key == pygame.K_LEFT:
                 dis.hvelocity = -4
 
