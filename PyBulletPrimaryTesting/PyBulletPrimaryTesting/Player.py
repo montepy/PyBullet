@@ -1,11 +1,13 @@
 import pygame
 import pBullet
-class Player(pygame.Rect):
+class Player(pygame.sprite.DirtySprite):
     def __init__(self,left,top,width,height,r_g_b):
-        pygame.Rect.__init__(self,left,top,width,height)
+        pygame.sprite.DirtySprite.__init__(self)
+        self.image =pygame.Surface([width,height])
+        self.image.fill(r_g_b)
+        self.rect = pygame.rect.Rect(left,top,width,height)
         self.vvelocity = 0
         self.hvelocity = 0
-        self.color = r_g_b
         self.focused = False
 
     #def __init__(self,rect,color):
@@ -24,8 +26,8 @@ class Player(pygame.Rect):
         mult = 1
         if self.focused:
             mult = 2
-        self.x += self.hvelocity/mult
-        self.y += self.vvelocity/mult
+        self.rect.x += self.hvelocity/mult
+        self.rect.y += self.vvelocity/mult
 
     def draw(self, background):
         pygame.draw.rect(background,self.color,self)
@@ -34,6 +36,6 @@ class Player(pygame.Rect):
         self.focused = bool
 
     def shoot(self):
-        bullet = pBullet.pBullet(self.x +self.width/3,self.y,self.width/6,self.height/2,True,0,-16,(0,182,255))
+        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,self.rect.width/6,self.rect.height/2,True,0,-16,(0,182,255))
         return bullet
 

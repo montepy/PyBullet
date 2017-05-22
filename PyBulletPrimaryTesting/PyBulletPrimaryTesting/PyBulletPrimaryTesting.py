@@ -11,7 +11,7 @@ pygame.key.set_repeat(100,100)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 player = Player.Player(310,240,30,30,(0,0,255))
-drawnRects = [player]
+friendly = pygame.sprite.Group(player)
 lastFiring = 0
 clock = pygame.time.Clock()
 
@@ -43,12 +43,11 @@ while not done:
                     player.focus(False)
     
     if pygame.key.get_pressed()[pygame.K_SPACE] and lastFiring > 100:
-        drawnRects.append(player.shoot())
+        friendly.add(player.shoot())
         lastFiring = 0
     background.fill((250,250,250))
-    for rect in drawnRects:
-        rect.update()
-        rect.draw(background)
+    friendly.update()
+    friendly.draw(background)
     
     screen.blit(background,(0,0))
     clock.tick(30)
