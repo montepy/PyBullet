@@ -1,5 +1,5 @@
 import pygame
-
+import pBullet
 class Player(pygame.Rect):
     def __init__(self,left,top,width,height,r_g_b):
         pygame.Rect.__init__(self,left,top,width,height)
@@ -19,6 +19,7 @@ class Player(pygame.Rect):
         self.hvelocity = move
     def moveV(self,move):
         self.vvelocity = move
+        print("Hello")
     def update(self):
         mult = 1
         if self.focused:
@@ -31,4 +32,8 @@ class Player(pygame.Rect):
 
     def focus(self,bool):
         self.focused = bool
+
+    def shoot(self):
+        bullet = pBullet.pBullet(self.x +self.width/3,self.y,self.width/6,self.height/2,True,0,-16,(0,182,255))
+        return bullet
 
