@@ -22,6 +22,18 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="enemy1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="enemy2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="enemy3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Level.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="pBullet.py">
       <SubType>Code</SubType>
     </Compile>
