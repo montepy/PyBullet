@@ -31,8 +31,8 @@ class Player(pygame.sprite.DirtySprite):
         self.health -= 1
     def update(self):
         if self.hasHit and self.hitWait >0:
-            self.image.fill(255,0,0)
-            hitWait -= 1
+            self.image.fill((255,0,0))
+            self.hitWait -= 1
         else:
             self.hasHit = False
             self.hitWait = 5

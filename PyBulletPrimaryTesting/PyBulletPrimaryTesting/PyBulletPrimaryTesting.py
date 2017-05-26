@@ -2,6 +2,7 @@ import pygame
 import os,sys
 import Player
 import pBullet
+import Level
 
 SCREENHEIGHT = 480
 SCREENWIDTH = 640
@@ -10,8 +11,10 @@ pygame.display.set_caption("Bullets")
 pygame.key.set_repeat(100,100)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
-player = Player.Player(310,240,30,30,(0,0,255))
-fbullet = pygame.sprite.Group()
+levels = [Level.Level("A1B1C1",350,SCREENHEIGHT,SCREENWIDTH)]
+activelevel = 0
+#player = Player.Player(310,240,30,30,(0,0,255))
+#fbullet = pygame.sprite.Group()
 lastFiring = 0
 clock = pygame.time.Clock()
 
@@ -25,31 +28,34 @@ while not done:
                 if event.key == pygame.K_ESCAPE:
                     done = True
                 if event.key == pygame.K_LSHIFT:
-                    player.focus(True)
+                    levels[activelevel].player.focus(True)
                 if event.key == pygame.K_UP:
-                    player.moveV(-4)
+                    levels[activelevel].player.moveV(-4)
                 if event.key == pygame.K_DOWN:
-                    player.moveV(4)
+                    levels[activelevel].player.moveV(4)
                 if event.key == pygame.K_RIGHT:
-                    player.moveH(4)
+                    levels[activelevel].player.moveH(4)
                 if event.key == pygame.K_LEFT:
-                    player.moveH(-4)
+                    levels[activelevel].player.moveH(-4)
             elif event.type == pygame.KEYUP:
                 if not pygame.key.get_pressed()[pygame.K_UP] and not pygame.key.get_pressed()[pygame.K_DOWN]:
-                    player.moveV(0)
+                    levels[activelevel].player.moveV(0)
                 if not pygame.key.get_pressed()[pygame.K_RIGHT] and not pygame.key.get_pressed()[pygame.K_LEFT]:
-                    player.moveH(0)
+                    levels[activelevel].player.moveH(0)
                 if event.key == pygame.K_LSHIFT:
-                    player.focus(False)
+                    levels[activelevel].player.focus(False)
     
     if pygame.key.get_pressed()[pygame.K_SPACE] and lastFiring > 100:
-        fbullet.add(player.shoot())
+        bullet = levels[activelevel].player.shoot()
+        levels[activelevel].collective.add(bullet)
+        levels[activelevel].fbullet.add(bullet)
         lastFiring = 0
     background.fill((250,250,250))
-    friendly.update()
-    friendly.draw(background)
-    
+    if levels[activelevel].update():
+        done = True
+    levels[activelevel].draw(background)
     screen.blit(background,(0,0))
+    
     clock.tick(30)
     lastFiring += clock.get_time()
     

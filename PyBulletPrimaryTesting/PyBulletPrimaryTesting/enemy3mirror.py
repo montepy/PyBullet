@@ -1,30 +1,38 @@
 import pygame
-class enemy1(pygame.sprite.Sprite):
+class enemy3mirror(pygame.sprite.Sprite):
     """description of class"""
     def __init__(self,left,top):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.surface.Surface([40,40])
         self.rect = pygame.rect.Rect(left,top,40,40)
-        self.image.fill((190,100,190))
-        self.health = 5
+        self.image.fill((106,255,76))
+        self.health = 10
         self.hasHit = False
         self.hitWait = 5
-        print("Spawned e1")
+        self.vvelocity = 20
+        self.hvelocity = -10
+        self.rangle = 0
+        print("Spawned e3m")
         
     def whenHit(self):
         self.hasHit = True
         self.health -= 1
     def update(self):
+        
         if self.hasHit and self.hitWait >0:
             self.image.fill((255,0,0))
             self.hitWait -= 1
         else:
             self.hasHit = False
             self.hitWait = 5
+            
         if self.health == 0:
             self.kill()
-        self.rect.y += 10
+        self.rangle -= 30
+        self.hvelocity += 2
+        self.rect.y += self.vvelocity
+        self.rect.x += self.hvelocity
 
-
-
+    def draw(self,surface):
+        surface.blit(pygame.transform.rotate(self.image,self.rangle),self.rect)
 
