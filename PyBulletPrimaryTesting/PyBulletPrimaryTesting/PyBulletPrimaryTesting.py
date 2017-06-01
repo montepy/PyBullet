@@ -3,6 +3,7 @@ import os,sys
 import Player
 import pBullet
 import Level
+pygame.init()
 
 SCREENHEIGHT = 480
 SCREENWIDTH = 640
@@ -11,7 +12,7 @@ pygame.display.set_caption("Bullets")
 pygame.key.set_repeat(100,100)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
-levels = [Level.Level("A1B1C1",350,SCREENHEIGHT,SCREENWIDTH)]
+levels = [Level.Level("A4B4C4",450,SCREENHEIGHT,SCREENWIDTH,1),Level.Level("C4A2B3",450,SCREENHEIGHT,SCREENWIDTH,2)]
 activelevel = 0
 #player = Player.Player(310,240,30,30,(0,0,255))
 #fbullet = pygame.sprite.Group()
@@ -51,10 +52,13 @@ while not done:
         levels[activelevel].fbullet.add(bullet)
         lastFiring = 0
     background.fill((250,250,250))
-    if levels[activelevel].update():
-        done = True
     levels[activelevel].draw(background)
     screen.blit(background,(0,0))
+    
+    if levels[activelevel].update():
+        activelevel += 1
+    if activelevel >= len(levels):
+        done = True
     
     clock.tick(30)
     lastFiring += clock.get_time()

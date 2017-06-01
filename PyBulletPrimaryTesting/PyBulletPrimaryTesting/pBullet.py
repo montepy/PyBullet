@@ -14,6 +14,8 @@ class pBullet(pygame.sprite.DirtySprite):
     def update(self):
         self.rect.x += self.hvelocity
         self.rect.y += self.vvelocity
+    def whenHit(self):
+        return
 
     def draw(self,background):
         pygame.draw.rect(background,self.color,self)

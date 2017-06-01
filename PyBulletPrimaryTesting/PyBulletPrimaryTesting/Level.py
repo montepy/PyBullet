@@ -4,10 +4,12 @@ import enemy2
 import enemy3
 import enemy3mirror
 import Player
-
+pygame.init()
 class Level(object):
     """description of class"""
-    def __init__(self,code,terminator,SCREENHEIGHT,SCREENWIDTH):
+    def __init__(self,code,terminator,SCREENHEIGHT,SCREENWIDTH,levelnum):
+        self.font = pygame.font.Font(None,20)
+        self.levelnum = levelnum
         self.enemygroup = pygame.sprite.Group()
         self.counter = 0
         self.codecounter = 0
@@ -21,32 +23,43 @@ class Level(object):
         self.collective = pygame.sprite.Group(self.enemygroup)
         self.collective.add(self.fbullet)
         self.collective.add(self.player)
+        self.enemyshoot = pygame.sprite.Group()
         
 
     def update(self):
         self.counter += 2
         if self.counter%100 == 0:
-            mod = int(self.code[self.codecounter+1])
-            if self.code[self.codecounter] == "A":
-                for i in list(range(mod)):
-                    enemy = enemy1.enemy1(i*self.SCREENWIDTH/mod+20,-40)
-                    self.enemygroup.add(enemy)
-                    self.collective.add(enemy)
-            elif self.code[self.codecounter] == "B":
-                for i in list(range(mod)):
-                    enemy = enemy2.enemy2(i*self.SCREENWIDTH/mod+20,-40)
-                    self.enemygroup.add(enemy)
-                    self.collective.add(enemy)
-            elif self.code[self.codecounter] == "C":
-                for i in list(range(mod)):
-                    enemy = enemy3.enemy3(i*self.SCREENWIDTH/mod + 20,-40)
-                    self.enemygroup.add(enemy)
-                    self.collective.add(enemy)
-                for i in list(range(mod)):
-                    enemy = enemy3mirror.enemy3mirror(-i*self.SCREENWIDTH/mod + 460,-40)
-                    self.enemygroup.add(enemy)  
-                    self.collective.add(enemy)
-            self.codecounter +=2
+            
+            if self.codecounter+2 > len(self.code):
+                pass
+            else:
+                mod = int(self.code[self.codecounter+1])
+                if self.code[self.codecounter] == "A":
+                    for i in list(range(mod)):
+                        enemy = enemy1.enemy1((i+1)*self.SCREENWIDTH/(mod+1),-40)
+                        self.enemygroup.add(enemy)
+                        self.collective.add(enemy)
+                elif self.code[self.codecounter] == "B":
+                    for i in list(range(mod)):
+                        enemy = enemy2.enemy2((i+1)*self.SCREENWIDTH/(mod+1),-40)
+                        self.enemygroup.add(enemy)
+                        self.enemyshoot.add(enemy)
+                        self.collective.add(enemy)
+                elif self.code[self.codecounter] == "C":
+                    for i in list(range(mod)):
+                        enemy = enemy3.enemy3((i+1)*self.SCREENWIDTH/(mod+1) + 20,-40)
+                        self.enemygroup.add(enemy)
+                        self.collective.add(enemy)
+                    for i in list(range(mod)):
+                        enemy = enemy3mirror.enemy3mirror(-(i+1)*self.SCREENWIDTH/(mod+1) + 460,-40)
+                        self.enemygroup.add(enemy)  
+                        self.collective.add(enemy)
+                self.codecounter +=2
+        if self.counter%25 == 0:
+            for i in self.enemyshoot:
+                bullet = i.shoot()
+                self.collective.add(bullet)
+                self.enemygroup.add(bullet)
         if  self.counter >= self.terminator:
             return True
 
@@ -59,6 +72,7 @@ class Level(object):
                 collided.whenHit()
                 i.kill()
         if pygame.sprite.spritecollideany(self.player,self.enemygroup):
+            pygame.sprite.spritecollideany(self.player,self.enemygroup).kill()
             self.player.whenHit()
         if self.player.rect.x <0:
             self.player.x == 0
@@ -72,5 +86,6 @@ class Level(object):
             if not self.screenRect.contains(i):
                 i.kill()
     def draw(self,surface):
+        surface.blit(self.font.render("Level" + str(self.levelnum),0,(255,255,255)),(0,0))
         self.collective.draw(surface)
 

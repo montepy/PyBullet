@@ -1,4 +1,5 @@
 import pygame
+import pBullet
 class enemy2(pygame.sprite.Sprite):
     
     def __init__(self,left,top):
@@ -27,8 +28,9 @@ class enemy2(pygame.sprite.Sprite):
             self.kill()
         self.rect.y += 10
 
+
     def shoot(self):
         
-        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-30,self.rect.width/6,self.rect.height/2,True,0,16,(0,182,255))
+        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,self.rect.width/6,self.rect.height/2,True,0,20,(0,182,255))
         return bullet
 
