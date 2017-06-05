@@ -9,8 +9,8 @@ class enemy3(pygame.sprite.Sprite):
         self.health = 10
         self.hasHit = False
         self.hitWait = 5
-        self.vvelocity = 15
-        self.hvelocity = 10
+        self.vvelocity = 10
+        self.hvelocity = 8
         self.rangle = 0
         print("Spawned e3")
         
@@ -28,8 +28,9 @@ class enemy3(pygame.sprite.Sprite):
             
         if self.health == 0:
             self.kill()
+            return True
         self.rangle += 1
-        self.hvelocity -= 2
+        self.hvelocity -= 1
         self.rect.y += self.vvelocity
         self.rect.x += self.hvelocity
 

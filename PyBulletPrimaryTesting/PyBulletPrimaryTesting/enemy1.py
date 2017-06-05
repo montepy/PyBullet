@@ -23,6 +23,7 @@ class enemy1(pygame.sprite.Sprite):
             self.hitWait = 5
         if self.health == 0:
             self.kill()
+            return True
         self.rect.y += 10
 
 

@@ -18,6 +18,8 @@ activelevel = 0
 #fbullet = pygame.sprite.Group()
 lastFiring = 0
 clock = pygame.time.Clock()
+score = [0]
+scorefont = pygame.font.Font(None,40)
 
 done = False
 while not done:
@@ -51,11 +53,13 @@ while not done:
         levels[activelevel].collective.add(bullet)
         levels[activelevel].fbullet.add(bullet)
         lastFiring = 0
-    background.fill((250,250,250))
+    background.fill(levels[activelevel].levelcolor)
     levels[activelevel].draw(background)
     screen.blit(background,(0,0))
     
-    if levels[activelevel].update():
+    screen.blit(scorefont.render("Score " + str(score[0]),0,(0,0,0)),(SCREENWIDTH/2-20,0))
+    
+    if levels[activelevel].update(score):
         activelevel += 1
     if activelevel >= len(levels):
         done = True
@@ -66,6 +70,24 @@ while not done:
     #drawnRects.draw(background)
     
     pygame.display.flip()
+
+#endloop
+run = True
+while run:
+    
+    if pygame.event.peek():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False;
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+    background.fill((255,255,255))
+    screen.blit(background,(0,0))
+    screen.blit(scorefont.render("Your final score was " + str(score[0]),1,(0,0,0)),(SCREENWIDTH/2-150,SCREENHEIGHT/2 -60))
+    screen.blit(scorefont.render("YOU WIN!",1,(0,0,0)),(SCREENWIDTH/2-100,0))
+    pygame.display.flip()
+
 
 pygame.quit()
                          

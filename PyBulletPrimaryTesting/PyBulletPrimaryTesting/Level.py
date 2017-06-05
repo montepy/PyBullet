@@ -8,7 +8,10 @@ pygame.init()
 class Level(object):
     """description of class"""
     def __init__(self,code,terminator,SCREENHEIGHT,SCREENWIDTH,levelnum):
-        self.font = pygame.font.Font(None,20)
+        self.font = pygame.font.Font(None,50)
+        self.levelcolor = (255,255,255)
+        self.leveltext = "Level " + str(levelnum)
+        self.textloc = (0,0)
         self.levelnum = levelnum
         self.enemygroup = pygame.sprite.Group()
         self.counter = 0
@@ -20,13 +23,15 @@ class Level(object):
         self.screenRect = pygame.rect.Rect(-60,-60,SCREENWIDTH+60,SCREENHEIGHT+60)
         self.player = Player.Player(310,240,30,30,(0,0,255))
         self.fbullet = pygame.sprite.Group()
+        self.ebullet = pygame.sprite.Group()
         self.collective = pygame.sprite.Group(self.enemygroup)
         self.collective.add(self.fbullet)
         self.collective.add(self.player)
         self.enemyshoot = pygame.sprite.Group()
         
 
-    def update(self):
+    def update(self,score):
+        score[0] += 2
         self.counter += 2
         if self.counter%100 == 0:
             
@@ -59,7 +64,7 @@ class Level(object):
             for i in self.enemyshoot:
                 bullet = i.shoot()
                 self.collective.add(bullet)
-                self.enemygroup.add(bullet)
+                self.ebullet.add(bullet)
         if  self.counter >= self.terminator:
             return True
 
@@ -71,9 +76,24 @@ class Level(object):
             if collided:
                 collided.whenHit()
                 i.kill()
+                score[0] += 50
         if pygame.sprite.spritecollideany(self.player,self.enemygroup):
             pygame.sprite.spritecollideany(self.player,self.enemygroup).kill()
             self.player.whenHit()
+        if pygame.sprite.spritecollideany(self.player,self.ebullet):
+            pygame.sprite.spritecollideany(self.player,self.ebullet).kill()
+            self.player.whenHit()
+        for i in self.enemygroup.sprites():
+            if i.health ==0:
+                i.kill()
+                score[0] += 200
+        if self.player.health == 0:
+            self.collective.empty()
+            self.leveltext = "You Lost"
+            self.textloc = (self.SCREENWIDTH/2-60,self.SCREENHEIGHT/2-30)
+            self.levelcolor = (0,125,0)
+            self.counter = 0
+
         if self.player.rect.x <0:
             self.player.x == 0
         if self.player.rect.y <0:
@@ -86,6 +106,6 @@ class Level(object):
             if not self.screenRect.contains(i):
                 i.kill()
     def draw(self,surface):
-        surface.blit(self.font.render("Level" + str(self.levelnum),0,(255,255,255)),(0,0))
+        surface.blit(self.font.render(self.leveltext,0,(0,0,0)),self.textloc)
         self.collective.draw(surface)
 
