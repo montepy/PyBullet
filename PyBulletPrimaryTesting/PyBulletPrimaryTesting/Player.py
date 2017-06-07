@@ -53,6 +53,11 @@ class Player(pygame.sprite.DirtySprite):
         self.focused = bool
 
     def shoot(self):
-        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,self.rect.width/6,self.rect.height/2,True,0,-16,(0,182,255))
+        
+        bullet = [pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,0,-16,(0,182,255))]
+        
+        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,4,-12,(0,182,255)))
+        
+        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,-4,-12,(0,182,255)))
         return bullet
 

@@ -6,6 +6,7 @@ class enemy2(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.surface.Surface([40,40])
         self.rect = pygame.rect.Rect(left,top,40,40)
+        self.defcolor = (0,255,255)
         self.image.fill((0,255,255))
         self.health = 5
         self.hasHit = False
@@ -23,15 +24,16 @@ class enemy2(pygame.sprite.Sprite):
         else:
             self.hasHit = False
             self.hitWait = 5
+            self.image.fill(self.defcolor)
             
         if self.health == 0:
             self.kill()
             return True
-        self.rect.y += 10
+        self.rect.y += 5
 
 
-    def shoot(self):
+    def shoot(self,player):
         
-        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,self.rect.width/6,self.rect.height/2,True,0,20,(0,182,255))
+        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,10,10,True,0,20,(0,182,255))
         return bullet
 

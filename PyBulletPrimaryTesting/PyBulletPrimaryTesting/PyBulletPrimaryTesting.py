@@ -12,12 +12,13 @@ pygame.display.set_caption("Bullets")
 pygame.key.set_repeat(100,100)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
-levels = [Level.Level("A4B4C4",450,SCREENHEIGHT,SCREENWIDTH,1),Level.Level("C4A2B3",450,SCREENHEIGHT,SCREENWIDTH,2)]
+levels = [Level.Level("A8B4C4D6",650,SCREENHEIGHT,SCREENWIDTH,1),Level.Level("C4A2B3",450,SCREENHEIGHT,SCREENWIDTH,2)]
 activelevel = 0
 #player = Player.Player(310,240,30,30,(0,0,255))
 #fbullet = pygame.sprite.Group()
 lastFiring = 0
 clock = pygame.time.Clock()
+won = False
 score = [0]
 scorefont = pygame.font.Font(None,40)
 
@@ -48,7 +49,7 @@ while not done:
                 if event.key == pygame.K_LSHIFT:
                     levels[activelevel].player.focus(False)
     
-    if pygame.key.get_pressed()[pygame.K_SPACE] and lastFiring > 100:
+    if pygame.key.get_pressed()[pygame.K_SPACE] and lastFiring > 200:
         bullet = levels[activelevel].player.shoot()
         levels[activelevel].collective.add(bullet)
         levels[activelevel].fbullet.add(bullet)
@@ -63,6 +64,7 @@ while not done:
         activelevel += 1
     if activelevel >= len(levels):
         done = True
+        won = True
     
     clock.tick(30)
     lastFiring += clock.get_time()
@@ -72,20 +74,20 @@ while not done:
     pygame.display.flip()
 
 #endloop
-run = True
-while run:
+while won:
     
     if pygame.event.peek():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False;
+                won = False;
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    run = False
+                    won = False
     background.fill((255,255,255))
     screen.blit(background,(0,0))
     screen.blit(scorefont.render("Your final score was " + str(score[0]),1,(0,0,0)),(SCREENWIDTH/2-150,SCREENHEIGHT/2 -60))
     screen.blit(scorefont.render("YOU WIN!",1,(0,0,0)),(SCREENWIDTH/2-100,0))
+    screen.blit(scorefont.render("Press ESC to end", 1,(0,0,0)),(SCREENWIDTH/2-100,400))
     pygame.display.flip()
 
 

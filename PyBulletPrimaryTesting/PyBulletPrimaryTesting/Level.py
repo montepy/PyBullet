@@ -1,8 +1,10 @@
 import pygame
+import random
 import enemy1
 import enemy2
 import enemy3
 import enemy3mirror
+import enemy4
 import Player
 pygame.init()
 class Level(object):
@@ -21,7 +23,7 @@ class Level(object):
         self.SCREENHEIGHT= SCREENHEIGHT
         self.SCREENWIDTH = SCREENWIDTH
         self.screenRect = pygame.rect.Rect(-60,-60,SCREENWIDTH+60,SCREENHEIGHT+60)
-        self.player = Player.Player(310,240,30,30,(0,0,255))
+        self.player = Player.Player(310,240,20,20,(0,0,255))
         self.fbullet = pygame.sprite.Group()
         self.ebullet = pygame.sprite.Group()
         self.collective = pygame.sprite.Group(self.enemygroup)
@@ -31,7 +33,6 @@ class Level(object):
         
 
     def update(self,score):
-        score[0] += 2
         self.counter += 2
         if self.counter%100 == 0:
             
@@ -59,10 +60,16 @@ class Level(object):
                         enemy = enemy3mirror.enemy3mirror(-(i+1)*self.SCREENWIDTH/(mod+1) + 460,-40)
                         self.enemygroup.add(enemy)  
                         self.collective.add(enemy)
+                elif self.code[self.codecounter] == "D":
+                    for i in list(range(mod)):
+                        enemy = enemy4.enemy4((i+1)*self.SCREENWIDTH/(mod+1),-40)
+                        self.enemygroup.add(enemy)
+                        self.enemyshoot.add(enemy)
+                        self.collective.add(enemy)
                 self.codecounter +=2
-        if self.counter%25 == 0:
-            for i in self.enemyshoot:
-                bullet = i.shoot()
+        for i in self.enemyshoot:
+            if random.random() >= 0.97:
+                bullet = i.shoot(self.player)
                 self.collective.add(bullet)
                 self.ebullet.add(bullet)
         if  self.counter >= self.terminator:
@@ -88,11 +95,14 @@ class Level(object):
                 i.kill()
                 score[0] += 200
         if self.player.health == 0:
+            self.player.kill()
             self.collective.empty()
             self.leveltext = "You Lost"
             self.textloc = (self.SCREENWIDTH/2-60,self.SCREENHEIGHT/2-30)
             self.levelcolor = (0,125,0)
             self.counter = 0
+        else:
+            score[0] += 2
 
         if self.player.rect.x <0:
             self.player.x == 0
@@ -105,6 +115,7 @@ class Level(object):
         for i in self.collective:
             if not self.screenRect.contains(i):
                 i.kill()
+        
     def draw(self,surface):
         surface.blit(self.font.render(self.leveltext,0,(0,0,0)),self.textloc)
         self.collective.draw(surface)

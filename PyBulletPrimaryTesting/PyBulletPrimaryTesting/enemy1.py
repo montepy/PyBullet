@@ -5,7 +5,8 @@ class enemy1(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.surface.Surface([40,40])
         self.rect = pygame.rect.Rect(left,top,40,40)
-        self.image.fill((190,100,190))
+        self.defcolor = (190,100,190)
+        self.image.fill(self.defcolor)
         self.health = 5
         self.hasHit = False
         self.hitWait = 5
@@ -21,6 +22,7 @@ class enemy1(pygame.sprite.Sprite):
         else:
             self.hasHit = False
             self.hitWait = 5
+            self.image.fill(self.defcolor)
         if self.health == 0:
             self.kill()
             return True
