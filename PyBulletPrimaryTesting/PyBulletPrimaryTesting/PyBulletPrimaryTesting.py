@@ -12,7 +12,7 @@ pygame.display.set_caption("Bullets")
 pygame.key.set_repeat(100,100)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
-levels = [Level.Level("A8B4C4D6",650,SCREENHEIGHT,SCREENWIDTH,1),Level.Level("C4A2B3",450,SCREENHEIGHT,SCREENWIDTH,2)]
+levels = [Level.Level("A8B4C4D6",650,SCREENHEIGHT,SCREENWIDTH,1),Level.Level("C4A2B3D1D2D3D4D5",1100,SCREENHEIGHT,SCREENWIDTH,2)]
 activelevel = 0
 #player = Player.Player(310,240,30,30,(0,0,255))
 #fbullet = pygame.sprite.Group()
@@ -34,13 +34,13 @@ while not done:
                 if event.key == pygame.K_LSHIFT:
                     levels[activelevel].player.focus(True)
                 if event.key == pygame.K_UP:
-                    levels[activelevel].player.moveV(-4)
+                    levels[activelevel].player.moveV(-6)
                 if event.key == pygame.K_DOWN:
-                    levels[activelevel].player.moveV(4)
+                    levels[activelevel].player.moveV(6)
                 if event.key == pygame.K_RIGHT:
-                    levels[activelevel].player.moveH(4)
+                    levels[activelevel].player.moveH(6)
                 if event.key == pygame.K_LEFT:
-                    levels[activelevel].player.moveH(-4)
+                    levels[activelevel].player.moveH(-6)
             elif event.type == pygame.KEYUP:
                 if not pygame.key.get_pressed()[pygame.K_UP] and not pygame.key.get_pressed()[pygame.K_DOWN]:
                     levels[activelevel].player.moveV(0)

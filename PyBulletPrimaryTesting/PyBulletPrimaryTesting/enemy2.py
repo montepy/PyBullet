@@ -34,6 +34,6 @@ class enemy2(pygame.sprite.Sprite):
 
     def shoot(self,player):
         
-        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,10,10,True,0,20,(0,182,255))
+        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,10,10,True,0,20,(0,0,0))
         return bullet
 

@@ -38,7 +38,7 @@ class enemy4(pygame.sprite.Sprite):
         vec = math.atan2(player.rect.centery -self.rect.centery, player.rect.centerx - self.rect.centerx)
         vectop = 20*math.sin(vec)
         vecside = 20*math.cos(vec)
-        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,8,8,True,vecside,vectop,(0,182,255))
+        bullet = pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y-40,8,8,True,vecside,vectop,(0,0,0))
         return bullet
     def draw(self,surface):
         surface.blit(pygame.transform.rotate(self.image,self.rangle),self.rect)

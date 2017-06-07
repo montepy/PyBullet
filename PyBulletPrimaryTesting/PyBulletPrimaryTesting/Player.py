@@ -54,10 +54,10 @@ class Player(pygame.sprite.DirtySprite):
 
     def shoot(self):
         
-        bullet = [pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,0,-16,(0,182,255))]
+        bullet = [pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,0,-16,(0,0,0))]
         
-        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,4,-12,(0,182,255)))
+        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,4,-12,(0,0,0)))
         
-        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,-4,-12,(0,182,255)))
+        bullet.append(pBullet.pBullet(self.rect.x +self.rect.width/3,self.rect.y,10,10,True,-4,-12,(0,0,0)))
         return bullet
 
