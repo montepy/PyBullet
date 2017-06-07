@@ -10,7 +10,7 @@ class Player(pygame.sprite.DirtySprite):
         self.vvelocity = 0
         self.hvelocity = 0
         self.focused = False
-        self.health = 3
+        self.health = 5
         self.hasHit = False
         self.hitWait = 5
 
@@ -47,7 +47,7 @@ class Player(pygame.sprite.DirtySprite):
         self.rect.y = y
 
     def draw(self, background):
-        pygame.draw.rect(background,self.color,self)
+        background.blit(self.image,self.rect)
 
     def focus(self,bool):
         self.focused = bool

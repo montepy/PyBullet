@@ -22,7 +22,7 @@ class Level(object):
         self.terminator = terminator
         self.SCREENHEIGHT= SCREENHEIGHT
         self.SCREENWIDTH = SCREENWIDTH
-        self.screenRect = pygame.rect.Rect(-60,-60,SCREENWIDTH+60,SCREENHEIGHT+60)
+        self.screenRect = pygame.rect.Rect(-60,-60,SCREENWIDTH+120,SCREENHEIGHT+120)
         self.player = Player.Player(310,240,20,20,(0,0,255))
         self.fbullet = pygame.sprite.Group()
         self.ebullet = pygame.sprite.Group()
@@ -96,6 +96,8 @@ class Level(object):
                 score[0] += 200
         if self.player.health == 0:
             self.player.kill()
+            self.ebullet.empty()
+            self.fbullet.empty()
             self.collective.empty()
             self.leveltext = "You Lost"
             self.textloc = (self.SCREENWIDTH/2-60,self.SCREENHEIGHT/2-30)
@@ -119,4 +121,7 @@ class Level(object):
     def draw(self,surface):
         surface.blit(self.font.render(self.leveltext,0,(0,0,0)),self.textloc)
         self.collective.draw(surface)
+        for i in list(range(self.player.health)):
+            surface.blit(self.player.image,(i*30+20,450))
+
 
